@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preload</title>
+</head>
+<body>
+    <h1 id="h1">Enter List</h1>
+    <form >
+        <div>
+            <label >Enter Item</label>
+            <input type="text" id="item" autofocus></input>
+        </div>
+        <button type="submit">add item</button>
+    </form>
+    <script>
+        window.api.printLine("h1", "Shopping list")//This change the h1 text from Enter text to Shopping list
+        const h1 = document.querySelector("h1");
+        // recieve your data("item") from main script
+        window.api.receive("fromMain", (item) => {
+            // convert your data(item) to text format
+            const item_text = document.createTextNode(item);
+            h1.append(item_text);
+            // h1.append(item_text+name);
+        })
+        const form = document.querySelector("form")
+        form.addEventListener("submit", submitForm);
+        function submitForm(e){
+            e.preventDefault();
+            // get the data item is holding
+            const item = document.querySelector("#item").value;
+            // send data(item) to main script using the channel "toMain"
+            window.api.send("toMain",item);
+        }
+    </script>
+</body>
+</html>
